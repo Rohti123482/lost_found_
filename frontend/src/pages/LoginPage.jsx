@@ -98,9 +98,11 @@ export default function LoginPage() {
             </Link>
           </p>
           <div className="mt-6 rounded-md bg-[#F4F1EA] p-3 text-xs text-[#4A5F54]">
-            <div className="font-semibold mb-1">Demo accounts (showcase)</div>
+            <div className="font-semibold mb-1">Demo admin (showcase only)</div>
             <div>admin@findr.app / admin123</div>
-            <div>ngo@findr.app / ngo123</div>
+            <div className="mt-1 text-[#8A9A92]">
+              Or sign up as a community member or NGO partner.
+            </div>
           </div>
         </div>
       </div>

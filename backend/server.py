@@ -176,6 +176,7 @@ def serialize_user(user: dict) -> dict:
         "alert_radius_km": user.get("alert_radius_km", 5),
         "alert_lat": user.get("alert_lat"),
         "alert_lng": user.get("alert_lng"),
+        "is_banned": user.get("is_banned", False),
         "created_at": user.get("created_at").isoformat() if isinstance(user.get("created_at"), datetime) else user.get("created_at"),
     }
 
@@ -195,6 +196,8 @@ async def get_current_user(request: Request) -> dict:
         user = await db.users.find_one({"_id": ObjectId(payload["sub"])})
         if not user:
             raise HTTPException(status_code=401, detail="User not found")
+        if user.get("is_banned"):
+            raise HTTPException(status_code=403, detail="Account is banned")
         return user
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="Token expired")
@@ -871,6 +874,81 @@ async def stats():
     }
 
 
+@api.get("/notifications/unread-count")
+async def unread_count(request: Request):
+    user = await get_current_user(request)
+    n = await db.notifications.count_documents({"user_id": str(user["_id"]), "is_read": False})
+    return {"count": n}
+
+
+# ----------------------------------------------------------------------------
+# Admin moderation
+# ----------------------------------------------------------------------------
+@api.get("/admin/users")
+async def admin_list_users(request: Request):
+    user = await get_current_user(request)
+    require_roles(user, ["admin"])
+    out = []
+    async for u in db.users.find({}).sort("created_at", -1):
+        out.append({
+            "id": str(u["_id"]),
+            "email": u["email"],
+            "name": u.get("name", ""),
+            "role": u.get("role", "user"),
+            "ngo_name": u.get("ngo_name"),
+            "is_banned": u.get("is_banned", False),
+            "created_at": u.get("created_at").isoformat() if isinstance(u.get("created_at"), datetime) else u.get("created_at"),
+        })
+    return out
+
+
+@api.post("/admin/users/{user_id}/ban")
+async def admin_ban_user(user_id: str, request: Request):
+    actor = await get_current_user(request)
+    require_roles(actor, ["admin"])
+    target = await db.users.find_one({"_id": ObjectId(user_id)})
+    if not target:
+        raise HTTPException(status_code=404, detail="User not found")
+    if target.get("role") == "admin":
+        raise HTTPException(status_code=400, detail="Cannot ban an admin")
+    new_state = not target.get("is_banned", False)
+    await db.users.update_one({"_id": ObjectId(user_id)}, {"$set": {"is_banned": new_state}})
+    return {"ok": True, "is_banned": new_state}
+
+
+@api.delete("/admin/reports/{report_id}")
+async def admin_delete_report(report_id: str, request: Request):
+    actor = await get_current_user(request)
+    require_roles(actor, ["admin"])
+    try:
+        r = await db.reports.find_one({"_id": ObjectId(report_id)})
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid id")
+    if not r:
+        raise HTTPException(status_code=404, detail="Not found")
+    await db.reports.delete_one({"_id": ObjectId(report_id)})
+    await db.notifications.delete_many({"report_id": report_id})
+    await db.matches.delete_many({"$or": [{"report_a": report_id}, {"report_b": report_id}]})
+    return {"ok": True}
+
+
+@api.get("/admin/stats")
+async def admin_stats(request: Request):
+    actor = await get_current_user(request)
+    require_roles(actor, ["admin"])
+    return {
+        "total_users": await db.users.count_documents({}),
+        "banned_users": await db.users.count_documents({"is_banned": True}),
+        "ngos": await db.users.count_documents({"role": "ngo"}),
+        "total_reports": await db.reports.count_documents({}),
+        "lost": await db.reports.count_documents({"report_type": "lost"}),
+        "found": await db.reports.count_documents({"report_type": "found"}),
+        "resolved": await db.reports.count_documents({"status": "resolved"}),
+        "notifications": await db.notifications.count_documents({}),
+        "ngo_cases": await db.ngo_cases.count_documents({}),
+    }
+
+
 @api.get("/")
 async def root():
     return {"app": "Universal Lost & Found Recovery", "ok": True}
@@ -1012,16 +1090,14 @@ async def seed_demo_reports():
     if await db.reports.count_documents({}) > 0:
         return
     admin = await db.users.find_one({"email": ADMIN_EMAIL})
-    ngo = await db.users.find_one({"email": NGO_EMAIL})
     if not admin:
         return
     now = datetime.now(timezone.utc)
     for i, base in enumerate(DEMO_REPORTS):
-        owner = ngo if (ngo and i % 3 == 0) else admin
         doc = {
             **base,
-            "user_id": str(owner["_id"]),
-            "owner_name": owner.get("name", ""),
+            "user_id": str(admin["_id"]),
+            "owner_name": "Demo Reporter",
             "status": "active",
             "date": (now - timedelta(days=i % 7)).date().isoformat(),
             "created_at": now - timedelta(hours=i * 5),
@@ -1039,7 +1115,6 @@ async def on_startup():
     await db.login_attempts.create_index("identifier")
     init_storage()
     await seed_user(ADMIN_EMAIL, ADMIN_PASSWORD, "Admin", "admin")
-    await seed_user(NGO_EMAIL, NGO_PASSWORD, "PawRescue NGO", "ngo", ngo_name="PawRescue NGO")
     await seed_demo_reports()
 
 

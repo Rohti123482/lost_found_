@@ -18,6 +18,7 @@ import NotificationsPage from "@/pages/NotificationsPage";
 import NgoDashboardPage from "@/pages/NgoDashboardPage";
 import ProfilePage from "@/pages/ProfilePage";
 import PublicReportPage from "@/pages/PublicReportPage";
+import AdminPage from "@/pages/AdminPage";
 
 function HomeGate() {
   const { user } = useAuth();
@@ -108,6 +109,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute roles={["admin"]}>
+                <AdminPage />
               </ProtectedRoute>
             }
           />
