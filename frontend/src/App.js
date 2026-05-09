@@ -1,54 +1,109 @@
-import { useEffect } from "react";
+import React from "react";
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider, useAuth } from "@/contexts/AuthContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { Toaster } from "@/components/ui/sonner";
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import LandingPage from "@/pages/LandingPage";
+import LoginPage from "@/pages/LoginPage";
+import SignupPage from "@/pages/SignupPage";
+import DashboardPage from "@/pages/DashboardPage";
+import ReportFormPage from "@/pages/ReportFormPage";
+import ReportsPage from "@/pages/ReportsPage";
+import MapPage from "@/pages/MapPage";
+import ReportDetailPage from "@/pages/ReportDetailPage";
+import MyReportsPage from "@/pages/MyReportsPage";
+import NotificationsPage from "@/pages/NotificationsPage";
+import NgoDashboardPage from "@/pages/NgoDashboardPage";
 
-const Home = () => {
-  const helloWorldApi = async () => {
-    try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
-    }
-  };
-
-  useEffect(() => {
-    helloWorldApi();
-  }, []);
-
-  return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
-    </div>
-  );
-};
-
-function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </div>
-  );
+function HomeGate() {
+  const { user } = useAuth();
+  if (user === null)
+    return (
+      <div className="flex h-screen items-center justify-center text-[#8A9A92]">
+        Loading…
+      </div>
+    );
+  return user ? <Navigate to="/dashboard" replace /> : <LandingPage />;
 }
 
-export default App;
+export default function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomeGate />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/report/:type"
+            element={
+              <ProtectedRoute>
+                <ReportFormPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports"
+            element={
+              <ProtectedRoute>
+                <ReportsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/reports/:id"
+            element={
+              <ProtectedRoute>
+                <ReportDetailPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/map"
+            element={
+              <ProtectedRoute>
+                <MapPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/my-reports"
+            element={
+              <ProtectedRoute>
+                <MyReportsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/notifications"
+            element={
+              <ProtectedRoute>
+                <NotificationsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ngo"
+            element={
+              <ProtectedRoute roles={["ngo", "admin"]}>
+                <NgoDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+        <Toaster />
+      </BrowserRouter>
+    </AuthProvider>
+  );
+}
