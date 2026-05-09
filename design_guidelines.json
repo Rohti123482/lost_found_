@@ -1,0 +1,118 @@
+{
+  "theme": "LIGHT",
+  "archetype": "1_ORGANIC_AND_EARTHY",
+  "domain": "Community & Rescue",
+  "mood": "Trustworthy, Warm, Empathetic, Urgent but Clear",
+  "colors": {
+    "background": {
+      "primary": "#FDFBF7",
+      "secondary": "#F4F1EA",
+      "tertiary": "#EAE5D9"
+    },
+    "surface": {
+      "card": "#FFFFFF",
+      "modal": "rgba(255, 255, 255, 0.8)",
+      "inverted": "#1A2F24"
+    },
+    "text": {
+      "primary": "#1A2F24",
+      "secondary": "#4A5F54",
+      "tertiary": "#8A9A92",
+      "inverted": "#FDFBF7"
+    },
+    "brand": {
+      "primary": "#E06A4F",
+      "primary_hover": "#C95B42",
+      "secondary": "#7D9774",
+      "secondary_hover": "#6B8562",
+      "accent": "#E2B15B"
+    },
+    "status": {
+      "lost": "#E06A4F",
+      "found": "#7D9774",
+      "info": "#669BBC",
+      "warning": "#E2B15B"
+    },
+    "borders": {
+      "subtle": "#EAE5D9",
+      "focus": "#7D9774"
+    }
+  },
+  "typography": {
+    "headings": {
+      "family": "Outfit, sans-serif",
+      "weights": [300, 800],
+      "tracking": "tracking-tight",
+      "usage": "Use font-light for elegance or font-black for impact. Never default to standard bold."
+    },
+    "body": {
+      "family": "Manrope, sans-serif",
+      "weights": [400, 500, 600],
+      "leading": "leading-relaxed"
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl lg:text-6xl",
+      "h2": "text-2xl sm:text-3xl lg:text-4xl",
+      "h3": "text-xl sm:text-2xl",
+      "h4": "text-lg sm:text-xl",
+      "body": "text-base md:text-lg",
+      "small": "text-sm",
+      "tiny": "text-xs uppercase tracking-[0.2em]"
+    }
+  },
+  "spacing_and_layout": {
+    "philosophy": "Generous Spacing Philosophy. Use 2-3x more spacing than typical designs. Use p-8, p-12, p-16.",
+    "marketing_pages": "Bento 'Tetris' Grid. Asymmetrical layouts. Never fill 100% of the grid perfectly.",
+    "dashboard_pages": "Control Room Grid. Map should take 60-70% of viewport width. Left sidebar for filters. Right for list/details.",
+    "cards": "Solid background, 1px subtle border (border-stone-200). Avoid heavy drop shadows, use crisp 1px borders and slight hover lifts (-translate-y-1).",
+    "modals": "Crystal Glassmorphism. backdrop-blur-xl bg-white/80 with a 1px solid white/40 border."
+  },
+  "components": {
+    "buttons": "Flat, sharp or slightly rounded (rounded-md). Text must contrast highly with background. On hover, use a lighter hue of the active color.",
+    "inputs": "Use Shadcn components but heavily customized. Warm borders, no default blue focus rings. Use focus:ring-brand-primary or focus:ring-brand-secondary.",
+    "map": "Leaflet. Hide default cluttered map UI if possible. Use custom colored markers (Terracotta for Lost, Moss for Found).",
+    "navigation": "Header must have solid or glass background (backdrop-blur-xl bg-[#FDFBF7]/80). Navigation links visible on desktop.",
+    "cards_report": "Image gallery on top, details below. Use badges for 'Lost' / 'Found'. Provide clear contact/action buttons."
+  },
+  "assets": {
+    "icons": {
+      "library": "lucide-react",
+      "style": "Clean, stroke-based, functional."
+    },
+    "images": {
+      "hero_banner": {
+        "url": "https://static.prod-images.emergentagent.com/jobs/ff2e7dab-f218-4051-89c3-35f6086b9662/images/7c9a54386988bfa7bb52e110bdc784eed05e3092f34d68fdbd952858dc7561b1.png",
+        "description": "Warm sunrise over suburban neighborhood, feeling of hope."
+      },
+      "app_texture_bg": {
+        "url": "https://static.prod-images.emergentagent.com/jobs/ff2e7dab-f218-4051-89c3-35f6086b9662/images/5a7774d492ad2a71fa0e6ccab9ba59ee790eddcadc479387d7c6a46f51ceb27a.png",
+        "description": "Abstract soft textured background in pale terracotta and warm sand."
+      },
+      "pet_reunited_1": {
+        "url": "https://images.unsplash.com/photo-1634739932778-ede9a54d183d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2MjJ8MHwxfHNlYXJjaHwzfHxoYXBweSUyMGRvZyUyMG93bmVyJTIwcmV1bml0ZWR8ZW58MHx8fHwxNzc4MzM5MzU2fDA&ixlib=rb-4.1.0&q=85",
+        "description": "Woman hugging a dog, feeling of reunion and relief."
+      },
+      "pet_reunited_2": {
+        "url": "https://images.pexels.com/photos/6298625/pexels-photo-6298625.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "description": "Black and white portrait of a woman hugging a dog."
+      },
+      "rescue_volunteers": {
+        "url": "https://images.unsplash.com/photo-1774050021883-b711be066448?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTZ8MHwxfHNlYXJjaHwxfHxyZXNjdWUlMjB2b2x1bnRlZXJzJTIwY29tbXVuaXR5fGVufDB8fHx8MTc3ODMzOTM1Nnww&ixlib=rb-4.1.0&q=85",
+        "description": "Rescue volunteers in uniforms."
+      }
+    }
+  },
+  "interactions": {
+    "hover": "All interactive elements must have hover states. Do not rely on inheritance. Use specific colors (e.g., hover:bg-[#C95B42] hover:text-white).",
+    "transitions": "Use specific properties (transition-transform, transition-colors duration-200 ease-out). Never transition-all.",
+    "testing": "All interactive and key informational elements MUST include a data-testid attribute in kebab-case."
+  },
+  "instructions_to_main_agent": [
+    "Use raw HTML/Tailwind for creative landing page sections, but Shadcn components for complex interactions (forms, dialogs).",
+    "Never center-align large blocks of text. Left align paragraphs and dense content.",
+    "Avoid generic blue tones. Stick to the earthy palette provided.",
+    "When displaying maps, make them the hero of the dashboard view, surrounded by modular floating widgets or clean sidebars.",
+    "Implement 'Outfit' for headers and 'Manrope' for body text via Google Fonts in index.html.",
+    "Use the provided image URLs strictly. Never use placeholder services."
+  ]
+}
