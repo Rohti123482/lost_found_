@@ -16,6 +16,8 @@ import ReportDetailPage from "@/pages/ReportDetailPage";
 import MyReportsPage from "@/pages/MyReportsPage";
 import NotificationsPage from "@/pages/NotificationsPage";
 import NgoDashboardPage from "@/pages/NgoDashboardPage";
+import ProfilePage from "@/pages/ProfilePage";
+import PublicReportPage from "@/pages/PublicReportPage";
 
 function HomeGate() {
   const { user } = useAuth();
@@ -36,6 +38,7 @@ export default function App() {
           <Route path="/" element={<HomeGate />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
+          <Route path="/share/:id" element={<PublicReportPage />} />
           <Route
             path="/dashboard"
             element={
@@ -97,6 +100,14 @@ export default function App() {
             element={
               <ProtectedRoute roles={["ngo", "admin"]}>
                 <NgoDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
               </ProtectedRoute>
             }
           />

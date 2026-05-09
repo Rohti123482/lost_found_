@@ -86,6 +86,15 @@ export default function AppLayout({ children }) {
                 Report
               </Button>
               <button
+                onClick={() => navigate("/profile")}
+                data-testid="profile-button"
+                className="hidden md:inline-flex items-center gap-1.5 px-3 py-2 rounded-md text-sm text-[#4A5F54] hover:bg-[#F4F1EA] transition-colors"
+                aria-label="Profile"
+              >
+                <User className="h-4 w-4" />
+                {user?.name?.split(" ")[0] || "Me"}
+              </button>
+              <button
                 onClick={logout}
                 data-testid="logout-button"
                 className="hidden md:inline-flex items-center gap-1.5 px-3 py-2 rounded-md text-sm text-[#4A5F54] hover:bg-[#F4F1EA] transition-colors"
@@ -125,6 +134,17 @@ export default function AppLayout({ children }) {
                   {n.label}
                 </NavLink>
               ))}
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  navigate("/profile");
+                }}
+                className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-[#4A5F54]"
+                data-testid="mobile-profile-button"
+              >
+                <User className="h-4 w-4" />
+                Profile
+              </button>
               <button
                 onClick={logout}
                 className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-[#4A5F54]"

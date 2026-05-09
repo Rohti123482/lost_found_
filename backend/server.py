@@ -903,6 +903,133 @@ async def seed_user(email: str, password: str, name: str, role: str, ngo_name: O
         logger.info(f"Updated password for {email}")
 
 
+# ----------------------------------------------------------------------------
+# Demo data — auto-seeded once for college-presentation showcases.
+# ----------------------------------------------------------------------------
+DEMO_REPORTS = [
+    {
+        "report_type": "lost", "entity_type": "dog", "name": "Bruno",
+        "description": "Friendly golden labrador, wearing a blue collar. Slipped out during evening walk near Indiranagar 12th main.",
+        "color": "golden", "latitude": 12.9719, "longitude": 77.6412,
+        "location_text": "Indiranagar 12th Main, Bengaluru", "contact": "+91-98860-12345",
+        "photo_urls": ["https://images.unsplash.com/photo-1552053831-71594a27632d?w=900&q=80"],
+    },
+    {
+        "report_type": "found", "entity_type": "dog", "name": None,
+        "description": "Found a friendly golden retriever wagging tail near Domlur. Wearing a faded blue collar, looks well-fed.",
+        "color": "golden", "latitude": 12.9608, "longitude": 77.6387,
+        "location_text": "Domlur Layout, Bengaluru", "contact": "+91-99023-87765",
+        "photo_urls": ["https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=900&q=80"],
+    },
+    {
+        "report_type": "lost", "entity_type": "cat", "name": "Mochi",
+        "description": "Black and white tuxedo cat, very shy, has a small notch on left ear. Last seen near our balcony in Koramangala.",
+        "color": "black and white", "latitude": 12.9352, "longitude": 77.6245,
+        "location_text": "Koramangala 4th Block, Bengaluru", "contact": "+91-98452-44120",
+        "photo_urls": ["https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=900&q=80"],
+    },
+    {
+        "report_type": "found", "entity_type": "cat", "name": None,
+        "description": "Spotted a black-and-white cat hiding under a parked car near Forum Mall area. Won't come close.",
+        "color": "black and white", "latitude": 12.9352, "longitude": 77.6175,
+        "location_text": "Forum Mall, Koramangala", "contact": "+91-90080-99001",
+        "photo_urls": ["https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=900&q=80"],
+    },
+    {
+        "report_type": "lost", "entity_type": "dog", "name": "Coco",
+        "description": "Small brown beagle puppy, very playful, missing red harness. Got separated near HSR Layout park.",
+        "color": "brown", "latitude": 12.9116, "longitude": 77.6371,
+        "location_text": "HSR Layout, Bengaluru", "contact": "+91-99000-22189",
+        "photo_urls": ["https://images.unsplash.com/photo-1505628346881-b72b27e84530?w=900&q=80"],
+    },
+    {
+        "report_type": "found", "entity_type": "dog", "name": None,
+        "description": "Found an Indian street dog with a torn ear and friendly disposition. Currently sheltering at home in Bandra West.",
+        "color": "white and brown", "latitude": 19.0596, "longitude": 72.8295,
+        "location_text": "Bandra West, Mumbai", "contact": "+91-98201-00921",
+        "photo_urls": ["https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=900&q=80"],
+    },
+    {
+        "report_type": "lost", "entity_type": "person", "name": "Mr. Rajesh Kumar (72)",
+        "description": "Elderly gentleman with mild dementia, wearing white kurta and grey shawl. Missing since morning from Dadar station area.",
+        "color": "—", "latitude": 19.0186, "longitude": 72.8442,
+        "location_text": "Dadar Station, Mumbai", "contact": "+91-98199-83372",
+        "photo_urls": ["https://images.unsplash.com/photo-1559563458-527698bf5295?w=900&q=80"],
+    },
+    {
+        "report_type": "lost", "entity_type": "cat", "name": "Whiskey",
+        "description": "Orange tabby, very vocal, microchipped. Last seen on the rooftop of our building in CR Park.",
+        "color": "orange tabby", "latitude": 28.5396, "longitude": 77.2495,
+        "location_text": "Chittaranjan Park, Delhi", "contact": "+91-98109-66552",
+        "photo_urls": ["https://images.unsplash.com/photo-1571566882372-1598d88abd90?w=900&q=80"],
+    },
+    {
+        "report_type": "found", "entity_type": "cat", "name": None,
+        "description": "Orange-coloured cat seen meowing loudly near a parked Honda. Looks lost and hungry.",
+        "color": "orange", "latitude": 28.5429, "longitude": 77.2431,
+        "location_text": "GK-II, Delhi", "contact": "+91-99536-44210",
+        "photo_urls": ["https://images.unsplash.com/photo-1592194996308-7b43878e84a6?w=900&q=80"],
+    },
+    {
+        "report_type": "lost", "entity_type": "dog", "name": "Pepper",
+        "description": "Black and tan dachshund, slightly limping on hind leg, wearing pink collar with bell.",
+        "color": "black and tan", "latitude": 18.5204, "longitude": 73.8567,
+        "location_text": "FC Road, Pune", "contact": "+91-98220-55410",
+        "photo_urls": ["https://images.unsplash.com/photo-1605568427561-40dd23c2acea?w=900&q=80"],
+    },
+    {
+        "report_type": "found", "entity_type": "dog", "name": None,
+        "description": "Spotted a small dachshund near JM Road. Has a pink collar, but no name tag. Currently with us.",
+        "color": "black", "latitude": 18.5230, "longitude": 73.8475,
+        "location_text": "JM Road, Pune", "contact": "+91-98905-71289",
+        "photo_urls": ["https://images.unsplash.com/photo-1587764379873-97837921fd44?w=900&q=80"],
+    },
+    {
+        "report_type": "found", "entity_type": "object", "name": "Backpack with school books",
+        "description": "Found a navy-blue school backpack with class 7 textbooks and a water bottle. Looking for the owner.",
+        "color": "navy blue", "latitude": 13.0827, "longitude": 80.2707,
+        "location_text": "T. Nagar, Chennai", "contact": "+91-94440-87122",
+        "photo_urls": ["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=900&q=80"],
+    },
+    {
+        "report_type": "lost", "entity_type": "object", "name": "MacBook in grey sleeve",
+        "description": "Lost a MacBook Air in a grey neoprene sleeve. Reward offered. Has stickers including a small cat sticker.",
+        "color": "silver", "latitude": 13.0625, "longitude": 80.2376,
+        "location_text": "Anna Nagar, Chennai", "contact": "+91-94440-12321",
+        "photo_urls": ["https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900&q=80"],
+    },
+    {
+        "report_type": "found", "entity_type": "dog", "name": None,
+        "description": "A friendly indie dog has been hanging around our gate for two days. Looks healthy, very social.",
+        "color": "brown", "latitude": 17.4435, "longitude": 78.3772,
+        "location_text": "Hitec City, Hyderabad", "contact": "+91-94400-55831",
+        "photo_urls": ["https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=900&q=80"],
+    },
+]
+
+
+async def seed_demo_reports():
+    if await db.reports.count_documents({}) > 0:
+        return
+    admin = await db.users.find_one({"email": ADMIN_EMAIL})
+    ngo = await db.users.find_one({"email": NGO_EMAIL})
+    if not admin:
+        return
+    now = datetime.now(timezone.utc)
+    for i, base in enumerate(DEMO_REPORTS):
+        owner = ngo if (ngo and i % 3 == 0) else admin
+        doc = {
+            **base,
+            "user_id": str(owner["_id"]),
+            "owner_name": owner.get("name", ""),
+            "status": "active",
+            "date": (now - timedelta(days=i % 7)).date().isoformat(),
+            "created_at": now - timedelta(hours=i * 5),
+        }
+        await db.reports.insert_one(doc)
+    logger.info(f"Seeded {len(DEMO_REPORTS)} demo reports")
+
+
 @app.on_event("startup")
 async def on_startup():
     await db.users.create_index("email", unique=True)
@@ -913,6 +1040,7 @@ async def on_startup():
     init_storage()
     await seed_user(ADMIN_EMAIL, ADMIN_PASSWORD, "Admin", "admin")
     await seed_user(NGO_EMAIL, NGO_PASSWORD, "PawRescue NGO", "ngo", ngo_name="PawRescue NGO")
+    await seed_demo_reports()
 
 
 @app.on_event("shutdown")

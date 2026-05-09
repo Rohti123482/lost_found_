@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { api, fileUrl } from "@/lib/api";
 import AppLayout from "@/components/AppLayout";
 import FindrMap from "@/components/FindrMap";
+import ShareButtons from "@/components/ShareButtons";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import {
@@ -178,6 +179,13 @@ export default function ReportDetailPage() {
                   </Button>
                 </>
               )}
+            </div>
+
+            <div className="mt-8">
+              <p className="text-xs uppercase tracking-[0.2em] text-[#8A9A92] mb-2">
+                Help spread the word
+              </p>
+              <ShareButtons report={report} />
             </div>
 
             {/* Matches */}

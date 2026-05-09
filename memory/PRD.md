@@ -8,7 +8,7 @@ Build a community-driven full-stack app to report, locate, rescue and reunite mi
 - **Backend:** FastAPI (Python), Motor (async Mongo), bcrypt + PyJWT (httpOnly cookies)
 - **Database:** MongoDB (collections: users, reports, files, notifications, matches, ngo_cases, login_attempts)
 - **Image storage:** Emergent object storage (`EMERGENT_LLM_KEY`)
-- **Maps:** Leaflet via OpenStreetMap tiles, custom terracotta/sage drop-pins
+- **Maps:** Leaflet + OpenStreetMap, custom drop-pins (terracotta = lost, sage = found, blue = you)
 - **Design:** Light "Organic & Earthy" palette, Outfit (display) + Manrope (body)
 
 ## User personas
@@ -26,6 +26,9 @@ Build a community-driven full-stack app to report, locate, rescue and reunite mi
 - Notifications (match + nearby + NGO updates)
 - NGO portal (claim case, status workflow: claimed → sheltered → reunified/closed)
 - My Reports (edit/delete/mark-resolved)
+- **(v2)** Public shareable report page (`/share/:id`) + WhatsApp/Twitter/Copy share buttons
+- **(v2)** Profile page with map-based alert location + radius slider
+- **(v2)** Auto-seeded demo data across 6 Indian cities for college presentations
 
 ## What's been implemented (2026-02-09)
 - Full auth flow with seeded admin and NGO accounts
@@ -39,16 +42,21 @@ Build a community-driven full-stack app to report, locate, rescue and reunite mi
 - Earthy "Findr" landing with bento grid and hero image
 - 22/22 backend pytest cases passing; full frontend smoke tested
 
+### v2 additions (2026-02-09 — same session)
+- 14 demo reports auto-seeded across Bengaluru, Mumbai, Delhi, Pune, Chennai, Hyderabad — designed so several lost/found pairs auto-match (great for the demo)
+- Profile page (`/profile`) with shadcn Slider + map picker
+- Public share page (`/share/:id`) — no auth required, optimized for sharing
+- WhatsApp / Twitter / Copy link buttons on report detail + public page
+- Header now has Profile button next to Logout
+
 ## P1 / P2 backlog
 - **P1**: Admin moderation page (delete spammy reports, ban users)
-- **P1**: Geospatial index (`reports.location_2dsphere`) + bounding-box prefilter for scale
-- **P1**: Profile page to set `alert_lat/lng/radius_km` (currently only via API)
+- **P1**: Geospatial 2dsphere index + bounding-box prefilter for scale
 - **P2**: AI image-similarity matching (Gemini Nano Banana / GPT vision)
 - **P2**: Email/SMS push for match notifications (SendGrid/Twilio)
-- **P2**: Public share page (no-auth view of a report for spreading via social)
 - **P2**: Tighten CORS to explicit origin; remove demo creds from /login
 
 ## Next tasks
-- Profile page for alert location/radius
 - Light admin moderation tools
 - Optional: AI image matching (with Emergent LLM key)
+- Optional: Email digest of nearby reports (SendGrid)
